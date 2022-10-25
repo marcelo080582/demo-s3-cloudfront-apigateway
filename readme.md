@@ -16,13 +16,19 @@ Após acessar sua conta AWS, navegue até o serviço "Lambda" ou acesse diretame
 \
 Crie uma nova função Lambda clicando no botão *"Create function"* na tela de listagem dos lambdas diponíveis.\
 \
-Na tela seguinte, mantenha a opção *"Author from scratch"* selecionada, informe um nome para sua função, escolha um *Runtime* e a arquitetura que você quer que seu código seja executado, para esse exemplo utilizaremos Python 3.9 em uma arquitetura x86_64.\
+Na tela seguinte, mantenha a opção *"Author from scratch"* selecionada, informe um nome para sua função, para nosso exemplo utilizaremos `lambda-read-dynamodb`, em seguida escolha um *Runtime* e a arquitetura que você quer que seu código seja executado, para esse exemplo utilizaremos Python 3.9 em uma arquitetura x86_64.\
 ![Lambda 02](./assets/tela_02.png)
 
 Role a tela um pouco para baixo e abra as opões presentes em *"Change default execution role"*, marque a opção *"Use an existing role"* e no campo *"Existing role"* selecione a Role IAM criada no passo 1 da ["Demonstração de utilização da API Gateway + Lambda + DynamoDB"](https://github.com/cloudfaster-academy-workshop/demo-lambda-dynamodb#passo-1-criar-uma-role-do-iam), em seguida, clique em *"Create Function"*.\
 ![Lambda 03](./assets/tela_03.png)
 
-Sua função Lamda será criada e será possível editar o código diretamente no *Browser*. Apague o conteúdo do arquivo "lambda_function.py" aberto no editor de código da função Lambda, copie todo o conteúdo do arquivo `lambda-read-dynamodb.py` disponível neste repositório, e cole no editor de código da função lambda. Em seguida substitua as variáveis `DYNAMODB_TABLE` e `AWS_REGION` com os valores corretos para sua tabela do DynamoDB criado no passo 2. Ao finalizar clique em *"Deploy"*.\
+Sua função Lamda será criada e será possível editar o código diretamente no *Browser*.\
+\
+Apague o conteúdo do arquivo "lambda_function.py" aberto no editor de código da função Lambda, copie todo o conteúdo do arquivo [`backend/lambda-read-dynamodb.py`](https://github.com/cloudfaster-academy-workshop/demo-s3-cloudfront-apigateway/blob/main/backend/lamda-read-dynamodb.py), disponível neste repositório, e cole no editor de código da função Lambda.\
+\
+Em seguida substitua as variáveis `DYNAMODB_TABLE` e `AWS_REGION` (linhas 13 e 15 do código) com os valores corretos para sua tabela do DynamoDB criado no passo 2 da ["Demonstração de utilização da API Gateway + Lambda + DynamoDB"](https://github.com/cloudfaster-academy-workshop/demo-lambda-dynamodb#passo-2-criar-a-tabela-no-dynamodb).\
+\
+Ao finalizar clique em *"Deploy"*.\
 ![Lambda 04](./assets/tela_04.png)
 
 Agora iremos testar nossa nova função Lambda, clique em *"Test"*. Será aberta uma tela de configuração do evento, nele iremos informar um nome para nosso teste e o JSON que será recebido como evento. Como nossa função irá ler o conteúdo do banco e não precisa de nenhuma informação de entrada, iremos criar um JSON vazio.
@@ -34,7 +40,9 @@ Agora iremos testar nossa nova função Lambda, clique em *"Test"*. Será aberta
 Ao finalizar, clique em *"Save"*\
 ![Lambda 05](./assets/tela_05.png)
 
-Assim que o novo evento de teste for criado, você poderá rodar sua função Lambda para teste, basta clicar na seta no botão *"Test"*. Tudo ocorrendo bem você verá uma mensagem de sucesso, conforme imagem abaixo:\
+Assim que o novo evento de teste for criado, você poderá rodar sua função Lambda para teste, basta clicar no botão *"Test"*.\
+\
+Tudo ocorrendo bem você verá uma mensagem de sucesso, conforme imagem abaixo:\
 ![Lambda 06](./assets/tela_06.png)
 
 ## Passo 2: Criar o vínculo do Lambda com a API Gateway
@@ -74,7 +82,7 @@ Após acessar sua conta AWS, navegue até o serviço "S3" ou acesse diretamente 
 Serão listados os buckets S3 disponíveis em sua conta AWS, clique no botão *"Create bucket"* para adicionar um novo Bucket S3.\
 ![S3 01](./assets/s3_01.png)
 
-Na próxima tela, dê um nome para seu Bucket S3 e mantenha as demais configurações conforme recomendado.\
+Na próxima tela, dê um nome para seu Bucket S3 e mantenha as demais configurações conforme recomendado.
 > **Atenção:** Os nomes dos Buckets S3 devem ser únicos em toda a nuvem, caso escolha um nome que já exista uma mensagem de erro será apresentada.
 
 ![S3 02](./assets/s3_02.png)
@@ -84,7 +92,7 @@ Para garantir que nossos objetos armazenados no Bucket S3 não sejam públicos, 
 
 Em seguida clique em *"Create bucket"*.\
 \
-Antes de adicionarmos nosso conteúdo estático ao Bucket, acesse o diretório `frontend` desse repositório, e edite o arquivo `functions.js`, alterando a variável global `ENDPOINT_URL` com o endpoint criado no passo 2.\
+Antes de adicionarmos nosso conteúdo estático ao Bucket, acesse o diretório `frontend` desse repositório, e edite o arquivo `functions.js`, alterando a variável global `ENDPOINT_URL` (linha 2 do código) com o endpoint criado no passo 2.\
 ![S3 04](./assets/s3_04.png)
 
 Ao finalizar a edição, acesse o Bucket recém criado e faça o upload de todos os arquivos que estão no diretório `frontend`.\
@@ -111,9 +119,13 @@ Crie uma nova distribuição clicando no botão *"Create distribution"*.
 Na próxima tela iremos configurar qual será nossa origem dos dados, ou seja, quais dados serão distribuídos pelo CloudFront.\
 \
 Em *"Orign domain"*, selecione o Bucket S3 criado no passo 3, em Origin path pode manter vazio, o campo *"Name"* será preenchido automaticamente com o nome do Bucket, mantenha o nome ou escolha um de sua preferência.\
+\
 Em *"Origin access"*, iremos configurar as permissões necessárias para acessar nossos objetos no S3, para isso selecione a opção *"Legacy access identities"*.\
+\
 Novas opções serão exibidas, em *"Origin access identity"*, clique no botão *"Create new OAI"*, um pop-up será exibido para que você informe um nome, mantenha o nome sugerido ou crie um de sua preferência.\
+\
 Em *"Bucket policy"*, selecione a opção *"Yes, update the bucket policy"*.\
+\
 Mantenha os demais campos do grupo *"Origin"* com os valores já definidos.\
 ![CloudFront 02](./assets/cloudfront_02.png)
 
@@ -124,8 +136,11 @@ Em *"Settings"* no campo *"Default root object"*, informe o nome do arquivo que 
 ![CloudFront 04](./assets/cloudfront_04.png)
 
 Ao finalizar, uma tela informando que a distribuição foi criada será exibida, bem como um endereço DNS da distribuição e também informará que a distribuição está sendo implantada.\
+\
 Esse processo pode demorar alguns minutos, aguarde até que o processo esteja finalizado.\
 ![CloudFront 05](./assets/cloudfront_05.png)
 
 Ao finalizar, copie o DNS da distribuição e abra em um browser para ver sua aplicação web sendo distribuida via CloudFront acessando seus objetos privados no S3.\
 ![CloudFront 06](./assets/cloudfront_06.png)
+
+That's all folks!

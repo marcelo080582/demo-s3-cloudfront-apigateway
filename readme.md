@@ -25,6 +25,7 @@ Após acessar sua conta AWS, navegue até o serviço "Lambda" ou acesse diretame
 Crie uma nova função Lambda clicando no botão *"Create function"* na tela de listagem dos lambdas diponíveis.\
 \
 Na tela seguinte, mantenha a opção *"Author from scratch"* selecionada, informe um nome para sua função, para nosso exemplo utilizaremos `lambda-read-dynamodb`, em seguida escolha um *Runtime* e a arquitetura que você quer que seu código seja executado, para esse exemplo utilizaremos Python 3.9 em uma arquitetura x86_64.\
+\
 ![Lambda 02](./assets/tela_02.png)
 \
 \
@@ -39,6 +40,7 @@ Apague o conteúdo do arquivo "lambda_function.py" aberto no editor de código d
 Em seguida substitua as variáveis `DYNAMODB_TABLE` e `AWS_REGION` (linhas 13 e 15 do código) com os valores corretos para sua tabela do DynamoDB criado no passo 2 da ["Demonstração de utilização da API Gateway + Lambda + DynamoDB"](https://github.com/cloudfaster-academy-workshop/demo-lambda-dynamodb#passo-2-criar-a-tabela-no-dynamodb).\
 \
 Ao finalizar clique em *"Deploy"*.\
+\
 ![Lambda 04](./assets/tela_04.png)
 \
 \
@@ -51,10 +53,12 @@ Agora iremos testar nossa nova função Lambda, clique em *"Test"*. Será aberta
 Ao finalizar, clique em *"Save"*\
 \
 ![Lambda 05](./assets/tela_05.png)
-
+\
+\
 Assim que o novo evento de teste for criado, você poderá rodar sua função Lambda para teste, basta clicar no botão *"Test"*.\
 \
 Tudo ocorrendo bem você verá uma mensagem de sucesso, conforme imagem abaixo:\
+\
 ![Lambda 06](./assets/tela_06.png)
 
 ## Passo 2: Criar o vínculo do Lambda com a API Gateway
@@ -114,7 +118,6 @@ Serão listados os buckets S3 disponíveis em sua conta AWS, clique no botão *"
 \
 Na próxima tela, dê um nome para seu Bucket S3 e mantenha as demais configurações conforme recomendado.
 
-Na próxima tela, dê um nome para seu Bucket S3 e mantenha as demais configurações conforme recomendado.
 > **Atenção:** Os nomes dos Buckets S3 devem ser únicos em toda a nuvem, caso escolha um nome que já exista uma mensagem de erro será apresentada.
 
 ![S3 02](./assets/s3_02.png)
@@ -133,7 +136,7 @@ Antes de adicionarmos nosso conteúdo estático ao Bucket, acesse o diretório `
 \
 Ao finalizar a edição, acesse o Bucket recém criado e faça o upload de todos os arquivos que estão no diretório `frontend`.\
 \
-Abra o Bucket recém criado e na aba *"Objects"* clique em *"Upload"*.
+Abra o Bucket recém criado e na aba *"Objects"* clique em *"Upload"*.\
 \
 ![S3 05](./assets/s3_05.png)
 \
@@ -156,7 +159,7 @@ O upload será realizado e ao finalizar uma tela de sucesso será apresentada.\
 
 Após acessar sua conta AWS, navegue até o serviço "CloudFront" ou acesse diretamente por esse link: <https://console.aws.amazon.com/cloudfront/v3/#/distributions>.\
 \
-Crie uma nova distribuição clicando no botão *"Create distribution"*.
+Crie uma nova distribuição clicando no botão *"Create distribution"*.\
 \
 ![CloudFront 01](./assets/cloudfront_01.png)
 \
@@ -187,7 +190,6 @@ Em *"Settings"* no campo *"Default root object"*, informe o nome do arquivo que 
 \
 \
 Ao finalizar, uma tela informando que a distribuição foi criada será exibida, bem como um endereço DNS da distribuição e também informará que a distribuição está sendo implantada.\
-\
 Esse processo pode demorar alguns minutos, aguarde até que o processo esteja finalizado.\
 \
 ![CloudFront 05](./assets/cloudfront_05.png)
@@ -198,6 +200,4 @@ Ao finalizar, copie o DNS da distribuição e abra em um browser para ver sua ap
 ![CloudFront 06](./assets/cloudfront_06.png)
 \
 \
-That's all folks!
-
 That's all folks!

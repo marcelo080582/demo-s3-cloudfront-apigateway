@@ -1,5 +1,5 @@
 // Atualize essa variável com o ENDPOINT da sua API
-var ENDPOINT_URL = "https://l40g9s97t9.execute-api.us-west-2.amazonaws.com/test/";
+var ENDPOINT_URL = "https://97cdonktzf.execute-api.us-east-1.amazonaws.com/test";
 /**
  * Busca as novas informações do backend
  */
